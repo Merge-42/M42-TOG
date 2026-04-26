@@ -98,22 +98,19 @@
         text-transform: uppercase;
       }
 
-      .header-links {
-        display: flex;
-        align-items: center;
-        gap: 1.25rem;
-      }
-
       .header-links a {
         color: var(--muted);
         font-size: 0.82rem;
         font-weight: 500;
         text-decoration: none;
         transition: color 0.2s;
+        padding: 0.3rem 0.6rem;
+        border-radius: 6px;
       }
 
       .header-links a:hover {
         color: var(--text);
+        background: rgba(255, 255, 255, 0.04);
       }
 
       /* Layout */
@@ -213,6 +210,41 @@
         flex: 1;
       }
 
+      .tree-item .arrow {
+        font-size: 0.55rem;
+        color: var(--dim);
+        transition: transform 0.2s ease;
+      }
+
+      .tree-item.expanded .arrow {
+        transform: rotate(90deg);
+      }
+
+      .tree-children {
+        display: none;
+      }
+
+      .tree-children.show {
+        display: block;
+      }
+
+      .tree-children .tree-item {
+        padding-left: 2.75rem;
+        font-size: 0.78rem;
+        color: #9ba8bf;
+      }
+
+      .tree-children .tree-item .icon {
+        font-size: 0.85rem;
+      }
+
+      .tree-empty {
+        padding: 0.4rem 1.25rem 0.4rem 2.75rem;
+        font-size: 0.75rem;
+        color: var(--dim);
+        font-family: "JetBrains Mono", monospace;
+      }
+
       /* Content */
       .content {
         flex: 1;
@@ -279,18 +311,6 @@
         border: 1px solid rgba(74, 222, 128, 0.25);
       }
 
-      .tag-internal {
-        background: rgba(192, 132, 252, 0.12);
-        color: var(--dev);
-        border: 1px solid rgba(192, 132, 252, 0.25);
-      }
-
-      .tag-coming {
-        background: rgba(90, 95, 127, 0.15);
-        color: var(--dim);
-        border: 1px solid rgba(90, 95, 127, 0.3);
-      }
-
       /* Resource list */
       .resource-list {
         display: flex;
@@ -319,16 +339,6 @@
         transform: translateX(4px);
       }
 
-      .resource-item.disabled {
-        opacity: 0.55;
-        cursor: default;
-      }
-
-      .resource-item.disabled:hover {
-        border-color: var(--border);
-        transform: none;
-      }
-
       .resource-icon {
         width: 40px;
         height: 40px;
@@ -339,16 +349,11 @@
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        color: var(--component);
       }
 
       .resource-icon svg {
         width: 20px;
         height: 20px;
-      }
-
-      .resource-item.disabled .resource-icon {
-        color: var(--dim);
       }
 
       .resource-body {
@@ -382,24 +387,6 @@
         font-family: "JetBrains Mono", monospace;
       }
 
-      .resource-meta .dot {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-      }
-
-      .dot-public {
-        background: var(--project);
-      }
-
-      .dot-internal {
-        background: var(--dev);
-      }
-
-      .dot-coming {
-        background: var(--dim);
-      }
-
       .resource-arrow {
         color: var(--dim);
         font-size: 0.9rem;
@@ -414,18 +401,29 @@
         transform: translateX(3px);
       }
 
-      /* Info box */
-      .info-box {
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid var(--border);
+      /* Callout */
+      .callout {
         border-radius: 10px;
-        padding: 1.25rem;
-        margin: 1.5rem 0 2rem;
+        padding: 1rem 1.1rem;
+        margin: 1rem 0 1.5rem;
+        border-left: 3px solid;
+        display: flex;
+        gap: 0.85rem;
+        align-items: flex-start;
       }
 
-      .info-box p {
+      .callout .cbody {
+        flex: 1;
+      }
+
+      .callout .cbody p {
         margin-bottom: 0;
-        font-size: 0.9rem;
+        font-size: 0.88rem;
+      }
+
+      .callout-info {
+        background: rgba(96, 165, 250, 0.08);
+        border-left-color: var(--component);
       }
 
       /* Footer */
@@ -484,14 +482,17 @@
         </div>
       </div>
       <div class="header-links">
-        <a href="https://www.merge42.com" target="_blank" rel="noopener">merge42.com</a>
+        <a href="https://www.merge42.com" target="_blank" rel="noopener"
+          >merge42.com</a
+        >
       </div>
     </div>
 
     <div class="main">
       <nav class="sidebar">
-        <div class="sidebar-title">Index</div>
-        <a href="#overview" class="tree-item active">
+        <div class="sidebar-title">Resources</div>
+
+        <a href="index.html" class="tree-item active">
           <span class="icon">
             <svg viewBox="0 0 16 16" fill="none">
               <rect
@@ -536,149 +537,136 @@
           <span class="name">Overview</span>
         </a>
 
-        <div class="sidebar-title section-gap">Resources</div>
-        <a href="polylith.html" class="tree-item">
+        <!-- Category: Software Architecture -->
+        <div class="sidebar-title section-gap">Software Architecture</div>
+        <div
+          class="tree-item expandable expanded"
+          data-children="cat-arch"
+          style="cursor: pointer"
+        >
           <span class="icon">
             <svg viewBox="0 0 16 16" fill="none">
               <rect
-                x="3"
+                x="1"
                 y="2"
-                width="10"
-                height="12"
-                rx="1.5"
-                stroke="#64748b"
-                stroke-width="1.3"
-                fill="none"
+                width="14"
+                height="4"
+                rx="1"
+                fill="#60a5fa"
+                opacity="0.6"
               />
-              <line
-                x1="5.5"
-                y1="6"
-                x2="10.5"
-                y2="6"
-                stroke="#64748b"
-                stroke-width="1.2"
-                stroke-linecap="round"
+              <rect
+                x="1"
+                y="7"
+                width="9"
+                height="4"
+                rx="1"
+                fill="#60a5fa"
+                opacity="0.85"
               />
-              <line
-                x1="5.5"
-                y1="9"
-                x2="10.5"
-                y2="9"
-                stroke="#64748b"
-                stroke-width="1.2"
-                stroke-linecap="round"
-              />
+              <rect x="1" y="12" width="5" height="3" rx="1" fill="#60a5fa" />
             </svg>
           </span>
-          <span class="name">Python Polylith</span>
-        </a>
-        <div class="tree-item disabled">
+          <span class="name">Architecture</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="tree-children show" id="children-cat-arch">
+          <a href="polylith.html" class="tree-item">
+            <span class="icon">
+              <svg viewBox="0 0 16 16" fill="none">
+                <rect
+                  x="2"
+                  y="4"
+                  width="12"
+                  height="3.5"
+                  rx="0.75"
+                  fill="#64748b"
+                />
+                <rect x="2" y="9" width="5.5" height="3.5" rx="0.75" fill="#60a5fa" />
+                <rect
+                  x="8.5"
+                  y="9"
+                  width="5.5"
+                  height="3.5"
+                  rx="0.75"
+                  fill="#f87171"
+                />
+              </svg>
+            </span>
+            <span class="name">Python Polylith</span>
+          </a>
+        </div>
+
+        <!-- Category: Data Engineering -->
+        <div class="sidebar-title section-gap">Data</div>
+        <div
+          class="tree-item expandable"
+          data-children="cat-data"
+          style="cursor: pointer"
+        >
           <span class="icon">
-            <svg viewBox="0 0 16 16" fill="none">
-              <rect
-                x="3"
-                y="2"
-                width="10"
-                height="12"
-                rx="1.5"
-                stroke="#64748b"
-                stroke-width="1.3"
-                fill="none"
-              />
-              <line
-                x1="5.5"
-                y1="6"
-                x2="10.5"
-                y2="6"
-                stroke="#64748b"
-                stroke-width="1.2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="5.5"
-                y1="9"
-                x2="10.5"
-                y2="9"
-                stroke="#64748b"
-                stroke-width="1.2"
-                stroke-linecap="round"
-              />
+            <svg viewBox="0 0 16 16" fill="none" stroke="#ee9b00" stroke-width="1.3" stroke-linejoin="round">
+              <ellipse cx="8" cy="4" rx="6" ry="2.5" />
+              <path d="M2 4v8c0 1.38 2.69 2.5 6 2.5s6-1.12 6-2.5V4" />
+              <path d="M2 8c0 1.38 2.69 2.5 6 2.5s6-1.12 6-2.5" />
             </svg>
           </span>
           <span class="name">Data Engineering</span>
+          <span class="arrow">▶</span>
         </div>
-        <div class="tree-item disabled">
+        <div class="tree-children" id="children-cat-data">
+          <div class="tree-empty">No guides yet</div>
+        </div>
+
+        <!-- Category: APIs -->
+        <div class="sidebar-title section-gap">Interfaces</div>
+        <div
+          class="tree-item expandable"
+          data-children="cat-api"
+          style="cursor: pointer"
+        >
           <span class="icon">
-            <svg viewBox="0 0 16 16" fill="none">
-              <rect
-                x="3"
-                y="2"
-                width="10"
-                height="12"
-                rx="1.5"
-                stroke="#64748b"
-                stroke-width="1.3"
-                fill="none"
-              />
-              <line
-                x1="5.5"
-                y1="6"
-                x2="10.5"
-                y2="6"
-                stroke="#64748b"
-                stroke-width="1.2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="5.5"
-                y1="9"
-                x2="10.5"
-                y2="9"
-                stroke="#64748b"
-                stroke-width="1.2"
-                stroke-linecap="round"
-              />
+            <svg viewBox="0 0 16 16" fill="none" stroke="#4ade80" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="4" cy="8" r="2" />
+              <circle cx="12" cy="4" r="2" />
+              <circle cx="12" cy="12" r="2" />
+              <path d="M5.7 7.2l3.6-1.8M5.7 8.8l3.6 1.8" />
             </svg>
           </span>
           <span class="name">API Design</span>
+          <span class="arrow">▶</span>
         </div>
-        <div class="tree-item disabled">
+        <div class="tree-children" id="children-cat-api">
+          <div class="tree-empty">No guides yet</div>
+        </div>
+
+        <!-- Category: Infrastructure -->
+        <div class="sidebar-title section-gap">Runtime</div>
+        <div
+          class="tree-item expandable"
+          data-children="cat-infra"
+          style="cursor: pointer"
+        >
           <span class="icon">
-            <svg viewBox="0 0 16 16" fill="none">
-              <rect
-                x="3"
-                y="2"
-                width="10"
-                height="12"
-                rx="1.5"
-                stroke="#64748b"
-                stroke-width="1.3"
-                fill="none"
-              />
-              <line
-                x1="5.5"
-                y1="6"
-                x2="10.5"
-                y2="6"
-                stroke="#64748b"
-                stroke-width="1.2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="5.5"
-                y1="9"
-                x2="10.5"
-                y2="9"
-                stroke="#64748b"
-                stroke-width="1.2"
-                stroke-linecap="round"
-              />
+            <svg viewBox="0 0 16 16" fill="none" stroke="#c084fc" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="5" height="5" rx="1" />
+              <rect x="9" y="2" width="5" height="5" rx="1" />
+              <rect x="2" y="9" width="5" height="5" rx="1" />
+              <rect x="9" y="9" width="5" height="5" rx="1" />
+              <circle cx="4.5" cy="4.5" r="0.8" fill="#c084fc" stroke="none" />
+              <circle cx="11.5" cy="4.5" r="0.8" fill="#c084fc" stroke="none" />
+              <circle cx="4.5" cy="11.5" r="0.8" fill="#c084fc" stroke="none" />
+              <circle cx="11.5" cy="11.5" r="0.8" fill="#c084fc" stroke="none" />
             </svg>
           </span>
           <span class="name">Infrastructure</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="tree-children" id="children-cat-infra">
+          <div class="tree-empty">No guides yet</div>
         </div>
 
-        <div class="sidebar-title section-gap">About</div>
+        <div class="sidebar-title section-gap">External</div>
         <a
           href="https://www.merge42.com"
           target="_blank"
@@ -686,12 +674,17 @@
           class="tree-item"
         >
           <span class="icon">
-            <svg viewBox="0 0 16 16" fill="none" stroke="#64748b" stroke-width="1.3">
-              <path
-                d="M8 1.5a6.5 6.5 0 0 1 0 13 6.5 6.5 0 0 1 0-13z"
-                fill="none"
-              />
-              <path d="M5 8.5h6M8 5.5v6" stroke-linecap="round" />
+            <svg
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="#64748b"
+              stroke-width="1.3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M6 2H3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V9.5" />
+              <path d="M10 2h4v4" />
+              <path d="M14 2L8 8" />
             </svg>
           </span>
           <span class="name">merge42.com</span>
@@ -703,37 +696,41 @@
         <span class="tag tag-public">Public Repository</span>
 
         <p class="lead">
-          This is a public index of concept-level onboarding pages Merge42 has created
-          to help teams understand systems before implementation. The same format is used
-          for internal guides covering private platforms, architecture and workflows.
+          Merge42 creates focused concept guides to help teams understand systems before
+          implementation. This index contains public examples; the same format is used for
+          internal guides covering private platforms, architecture and workflows.
         </p>
 
-        <h3>Available Resources</h3>
+        <h3>Available Guides</h3>
         <div class="resource-list">
           <a href="polylith.html" class="resource-item">
             <div class="resource-icon">
               <svg
-                viewBox="0 0 24 24"
+                viewBox="0 0 16 16"
                 fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <rect x="3" y="3" width="7" height="7" rx="1" />
-                <rect x="14" y="3" width="7" height="7" rx="1" />
-                <rect x="3" y="14" width="7" height="7" rx="1" />
-                <rect x="14" y="14" width="7" height="7" rx="1" />
+                <rect x="2" y="4" width="12" height="3.5" rx="0.75" fill="#64748b" />
+                <rect x="2" y="9" width="5.5" height="3.5" rx="0.75" fill="#60a5fa" />
+                <rect
+                  x="8.5"
+                  y="9"
+                  width="5.5"
+                  height="3.5"
+                  rx="0.75"
+                  fill="#f87171"
+                />
               </svg>
             </div>
             <div class="resource-body">
               <h4>Python Polylith</h4>
               <p>
-                Concept guide covering the Polylith architecture in Python — bases,
-                components, projects and how the pieces fit together.
+                Concept guide covering the Polylith architecture in Python — how bases,
+                components and projects fit together, and what trade-offs the architecture
+                is trying to solve.
               </p>
               <div class="resource-meta">
-                <span class="dot dot-public"></span>
+                <span style="color: var(--project)">●</span>
                 <span>Public</span>
                 <span>·</span>
                 <span>Concept guide</span>
@@ -743,118 +740,43 @@
             </div>
             <div class="resource-arrow">→</div>
           </a>
-
-          <div class="resource-item disabled">
-            <div class="resource-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <ellipse cx="12" cy="5" rx="9" ry="3" />
-                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
-                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
-              </svg>
-            </div>
-            <div class="resource-body">
-              <h4>Data Engineering</h4>
-              <p>
-                Placeholder for future public material on pipelines, data quality,
-                orchestration and operational ownership.
-              </p>
-              <div class="resource-meta">
-                <span class="dot dot-coming"></span>
-                <span>Coming soon</span>
-                <span>·</span>
-                <span>Example category</span>
-              </div>
-            </div>
-            <div class="resource-arrow">→</div>
-          </div>
-
-          <div class="resource-item disabled">
-            <div class="resource-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path
-                  d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
-                />
-                <path
-                  d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
-                />
-              </svg>
-            </div>
-            <div class="resource-body">
-              <h4>API Design</h4>
-              <p>
-                Placeholder for future public material on API contracts, versioning,
-                documentation and service boundaries.
-              </p>
-              <div class="resource-meta">
-                <span class="dot dot-coming"></span>
-                <span>Coming soon</span>
-                <span>·</span>
-                <span>Example category</span>
-              </div>
-            </div>
-            <div class="resource-arrow">→</div>
-          </div>
-
-          <div class="resource-item disabled">
-            <div class="resource-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-              </svg>
-            </div>
-            <div class="resource-body">
-              <h4>Infrastructure</h4>
-              <p>
-                Placeholder for future public material on deployment models,
-                infrastructure ownership and runtime operations.
-              </p>
-              <div class="resource-meta">
-                <span class="dot dot-coming"></span>
-                <span>Coming soon</span>
-                <span>·</span>
-                <span>Example category</span>
-              </div>
-            </div>
-            <div class="resource-arrow">→</div>
-          </div>
         </div>
 
         <h3>How these are used</h3>
-        <div class="info-box">
-          <p>
-            Merge42 creates concise concept guides for both public technologies and private
-            internal systems. A good guide gives new team members enough context to ask
-            better questions, review code with confidence and contribute sooner. These
-            pages are designed to be read once, then revisited as reference.
-          </p>
+        <div class="callout callout-info">
+          <div class="cbody">
+            <p>
+              A good concept guide gives new team members enough context to ask better
+              questions, review code with confidence and contribute sooner. These pages
+              are designed to be read once, then revisited as reference.
+            </p>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="footer">
-      <a href="https://www.merge42.com" target="_blank" rel="noopener">merge42.com</a>
+      <a href="https://www.merge42.com" target="_blank" rel="noopener"
+        >merge42.com</a
+      >
       <span style="color: var(--dim); margin: 0 0.5rem">·</span>
       <a href="polylith.html">Python Polylith</a>
     </div>
+
+    <script>
+      // Expand/collapse sidebar categories
+      document.querySelectorAll('.tree-item.expandable').forEach((item) => {
+        item.addEventListener('click', function (e) {
+          // if this is a link, let it navigate
+          if (this.tagName === 'A') return;
+          const childrenId = 'children-' + this.dataset.children;
+          const children = document.getElementById(childrenId);
+          if (children) {
+            children.classList.toggle('show');
+            this.classList.toggle('expanded');
+          }
+        });
+      });
+    </script>
   </body>
 </html>
