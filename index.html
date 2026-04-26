@@ -238,6 +238,12 @@
         font-size: 0.85rem;
       }
 
+      .tree-item.section-gap {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border);
+      }
+
       .tree-empty {
         padding: 0.4rem 1.25rem 0.4rem 2.75rem;
         font-size: 0.75rem;
@@ -537,10 +543,9 @@
           <span class="name">Overview</span>
         </a>
 
-        <!-- Category: Software Architecture -->
-        <div class="sidebar-title section-gap">Software Architecture</div>
+        <!-- Category: Architecture -->
         <div
-          class="tree-item expandable expanded"
+          class="tree-item expandable expanded section-gap"
           data-children="cat-arch"
           style="cursor: pointer"
         >
@@ -597,31 +602,29 @@
           </a>
         </div>
 
-        <!-- Category: Data Engineering -->
-        <div class="sidebar-title section-gap">Data</div>
+        <!-- Category: Data Systems -->
         <div
-          class="tree-item expandable"
+          class="tree-item expandable section-gap"
           data-children="cat-data"
           style="cursor: pointer"
         >
           <span class="icon">
-            <svg viewBox="0 0 16 16" fill="none" stroke="#ee9b00" stroke-width="1.3" stroke-linejoin="round">
-              <ellipse cx="8" cy="4" rx="6" ry="2.5" />
-              <path d="M2 4v8c0 1.38 2.69 2.5 6 2.5s6-1.12 6-2.5V4" />
-              <path d="M2 8c0 1.38 2.69 2.5 6 2.5s6-1.12 6-2.5" />
+            <svg viewBox="0 0 16 16" fill="none" stroke="#ee9b00" stroke-width="1.3">
+              <rect x="2" y="3" width="12" height="3" rx="1" />
+              <rect x="2" y="7" width="12" height="3" rx="1" />
+              <rect x="2" y="11" width="12" height="3" rx="1" />
             </svg>
           </span>
-          <span class="name">Data Engineering</span>
+          <span class="name">Data Systems</span>
           <span class="arrow">▶</span>
         </div>
         <div class="tree-children" id="children-cat-data">
           <div class="tree-empty">No guides yet</div>
         </div>
 
-        <!-- Category: APIs -->
-        <div class="sidebar-title section-gap">Interfaces</div>
+        <!-- Category: Contracts -->
         <div
-          class="tree-item expandable"
+          class="tree-item expandable section-gap"
           data-children="cat-api"
           style="cursor: pointer"
         >
@@ -633,7 +636,7 @@
               <path d="M5.7 7.2l3.6-1.8M5.7 8.8l3.6 1.8" />
             </svg>
           </span>
-          <span class="name">API Design</span>
+          <span class="name">Contracts</span>
           <span class="arrow">▶</span>
         </div>
         <div class="tree-children" id="children-cat-api">
@@ -641,9 +644,8 @@
         </div>
 
         <!-- Category: Infrastructure -->
-        <div class="sidebar-title section-gap">Runtime</div>
         <div
-          class="tree-item expandable"
+          class="tree-item expandable section-gap"
           data-children="cat-infra"
           style="cursor: pointer"
         >
@@ -666,12 +668,11 @@
           <div class="tree-empty">No guides yet</div>
         </div>
 
-        <div class="sidebar-title section-gap">External</div>
         <a
           href="https://www.merge42.com"
           target="_blank"
           rel="noopener"
-          class="tree-item"
+          class="tree-item section-gap"
         >
           <span class="icon">
             <svg
