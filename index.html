@@ -1,0 +1,751 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Merge42 — Learning Hub</title>
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      // Set initial theme based on system preference
+      (function () {
+        const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.classList.add(theme);
+      })();
+    </script>
+    <style>
+      :root {
+        --color-white: #ffffff;
+        --color-black: #000000;
+
+        /* Light theme tokens */
+        --color-text-light: #212529;
+        --color-background-light: #f8f8f8;
+        --color-primary-light: #3a7ca5;
+        --color-secondary-light: #579cc7;
+        --color-accent-light: #ee9b00;
+        --color-accent-alt-light: #ffb73250;
+        --color-bg-alt-light: #e9f3ff;
+
+        /* Dark theme tokens */
+        --color-text-dark: #e0e0e0;
+        --color-background-dark: #212529;
+        --color-primary-dark: #0f7acd;
+        --color-secondary-dark: #579cc7;
+        --color-accent-dark: #c08a00;
+        --color-accent-alt-dark: #00c8ff2e;
+        --color-bg-alt-dark: #2c2c2c;
+        --color-bg-dark-alt: #2c3034;
+
+        /* Active tokens (default: light) */
+        --color-text: var(--color-text-light);
+        --color-background: var(--color-background-light);
+        --color-primary: var(--color-primary-light);
+        --color-secondary: var(--color-secondary-light);
+        --color-accent: var(--color-accent-light);
+        --color-accent-alt: var(--color-accent-alt-light);
+        --color-bg-alt: var(--color-bg-alt-light);
+        --color-base: var(--color-white);
+        --color-base-contrast: var(--color-black);
+
+        --gap: 1.5rem;
+      }
+
+      html.dark {
+        --color-text: var(--color-text-dark);
+        --color-background: var(--color-background-dark);
+        --color-primary: var(--color-primary-dark);
+        --color-secondary: var(--color-secondary-dark);
+        --color-accent: var(--color-accent-dark);
+        --color-accent-alt: var(--color-accent-alt-dark);
+        --color-bg-alt: var(--color-bg-alt-dark);
+        --color-base: var(--color-black);
+        --color-base-contrast: var(--color-white);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        font-family: "Open Sans", sans-serif;
+        font-size: clamp(12px, 3vw, 16px);
+        line-height: 1.7;
+        background: var(--color-background);
+        color: var(--color-text);
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        font-family: "Montserrat", sans-serif;
+        color: var(--color-text);
+        margin-bottom: 0.8em;
+      }
+
+      h1 {
+        font-size: clamp(28px, 3vw, 36px);
+        font-weight: 700;
+      }
+
+      h2 {
+        font-size: clamp(24px, 3vw, 28px);
+        font-weight: 600;
+        margin-bottom: 1em;
+      }
+
+      h3 {
+        font-size: clamp(20px, 3vw, 24px);
+        font-weight: 600;
+      }
+
+      h4 {
+        font-size: clamp(14px, 3vw, 18px);
+        font-weight: 600;
+        margin-bottom: 0.6em;
+      }
+
+      p {
+        margin: 0 auto 2em;
+        max-width: 65ch;
+      }
+
+      a {
+        color: var(--color-primary);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      a:hover {
+        color: var(--color-accent);
+      }
+
+      .container {
+        max-width: 1600px;
+        margin: auto;
+        padding: 0 1rem;
+      }
+
+      section {
+        padding: 4rem 0;
+      }
+
+      /* Header */
+      header {
+        background: var(--color-background);
+        border-bottom: 1px solid var(--color-bg-alt);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      header .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .logo-link {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        padding: 1rem 0;
+        text-decoration: none;
+      }
+
+      .logo-img {
+        max-width: 100px;
+        height: auto;
+        display: block;
+        flex-shrink: 0;
+      }
+
+      .logo-sub {
+        font-size: 0.72rem;
+        color: var(--color-primary);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding-left: 0.85rem;
+        border-left: 1px solid var(--color-bg-alt);
+      }
+
+      html.dark .logo-sub {
+        border-left-color: rgba(255, 255, 255, 0.15);
+      }
+
+      header nav ul {
+        padding: 2rem 0;
+        list-style: none;
+        display: flex;
+        gap: var(--gap);
+        align-items: center;
+      }
+
+      header nav ul li a {
+        font-weight: 600;
+        color: var(--color-base-contrast);
+      }
+
+      header nav ul li a:hover {
+        color: var(--color-secondary-light);
+      }
+
+      header nav ul li a.external::after {
+        content: " ↗";
+        font-size: 0.85em;
+        opacity: 0.7;
+      }
+
+      /* Hero */
+      #hero {
+        --gradiant-from: color-mix(in srgb, var(--color-primary) 70%, transparent);
+        --gradiant-to: color-mix(in srgb, var(--color-secondary) 95%, transparent);
+        background-image:
+          linear-gradient(135deg, transparent 0%, var(--gradiant-from) 30%, var(--gradiant-to) 100%),
+          linear-gradient(180deg, #1e3a5f 0%, #2d6a9a 100%);
+        background-size: cover;
+        color: var(--color-white);
+        text-align: center;
+        padding: 7rem 0;
+      }
+
+      .hero__title {
+        font-size: clamp(32px, 4vw, 70px);
+        margin-bottom: 0.5em;
+        color: var(--color-white);
+      }
+
+      .hero__description {
+        font-size: clamp(16px, 2vw, 28px);
+        opacity: 0.9;
+      }
+
+      .nowrap {
+        white-space: nowrap;
+        display: inline-block;
+      }
+
+      .hero__lead {
+        max-width: 700px;
+        margin: 0 auto 2em;
+        opacity: 0.85;
+        font-size: clamp(14px, 1.5vw, 18px);
+      }
+
+      /* CTA button */
+      .cta {
+        background: var(--color-accent);
+        color: var(--color-white);
+        padding: 1rem 2.5rem;
+        font-size: 1.1em;
+        font-weight: 600;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        transition: background 0.3s, transform 0.3s;
+        display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+        border: none;
+        font-family: "Open Sans", sans-serif;
+      }
+
+      .cta:hover {
+        transform: translateY(-3px);
+        background: var(--color-accent-dark);
+        color: var(--color-white);
+      }
+
+      .cta-secondary {
+        background: transparent;
+        color: var(--color-white);
+        border: 2px solid rgba(255, 255, 255, 0.6);
+        padding: calc(1rem - 2px) calc(2.5rem - 2px);
+        font-size: 1.1em;
+        font-weight: 600;
+        border-radius: 0.5rem;
+        transition: all 0.3s;
+        display: inline-block;
+        text-decoration: none;
+        margin-left: 0.75rem;
+      }
+
+      .cta-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--color-white);
+        transform: translateY(-3px);
+      }
+
+      /* Topics section (mirrors #services from merge42.com) */
+      #topics {
+        background: var(--color-background);
+      }
+
+      #topics h2 {
+        text-align: center;
+        margin-bottom: 1rem;
+        color: var(--color-base-contrast);
+      }
+
+      .section-lead {
+        text-align: center;
+        color: var(--color-text);
+        opacity: 0.8;
+        margin-bottom: 2.5rem;
+        max-width: 640px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .topics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+        max-width: calc(1200px + 4rem);
+        margin: 0 auto;
+        gap: 2rem;
+      }
+
+      .topic-item {
+        background: var(--color-bg-alt);
+        padding: 2rem;
+        border-radius: 0.5rem;
+        transition: transform 0.3s, box-shadow 0.3s;
+        border: none;
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        color: inherit;
+      }
+
+      .topic-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        color: inherit;
+      }
+
+      .topic-item.disabled {
+        cursor: default;
+        opacity: 0.7;
+      }
+
+      .topic-item.disabled:hover {
+        transform: none;
+        box-shadow: none;
+      }
+
+      .topic-icon {
+        max-width: 64px;
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 1.25rem;
+        border-radius: 0.5rem;
+        background: var(--color-white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-primary);
+        box-shadow: 0 4px 10px rgba(58, 124, 165, 0.15);
+      }
+
+      html.dark .topic-icon {
+        background: var(--color-bg-dark-alt);
+      }
+
+      .topic-icon svg {
+        width: 32px;
+        height: 32px;
+      }
+
+      .topic-item.disabled .topic-icon {
+        color: #8a9199;
+      }
+
+      .topic-item h3 {
+        margin: 0 0 0.5rem;
+        color: var(--color-base-contrast);
+        text-align: center;
+      }
+
+      .topic-item p {
+        text-align: left;
+        margin: 0 0 1.25rem;
+        font-size: 0.95rem;
+        flex: 1;
+      }
+
+      .topic-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        font-size: 0.85rem;
+      }
+
+      html.dark .topic-meta {
+        border-top-color: rgba(255, 255, 255, 0.08);
+      }
+
+      .topic-tag {
+        padding: 0.2rem 0.7rem;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .topic-tag.available {
+        background: var(--color-primary);
+        color: var(--color-white);
+      }
+
+      .topic-tag.coming {
+        background: rgba(108, 117, 125, 0.2);
+        color: #6c757d;
+      }
+
+      .topic-lang {
+        color: var(--color-text);
+        opacity: 0.65;
+        font-size: 0.8rem;
+      }
+
+      .topic-arrow {
+        margin-left: auto;
+        color: var(--color-primary);
+        font-weight: 700;
+        transition: transform 0.2s ease;
+      }
+
+      .topic-item:hover .topic-arrow {
+        transform: translateX(6px);
+      }
+
+      .topic-item.disabled .topic-arrow {
+        color: #8a9199;
+      }
+
+      /* Why section (mirrors #expertise from merge42.com) */
+      #why {
+        background-color: var(--color-accent-alt);
+        text-align: center;
+      }
+
+      #why h2 {
+        margin-bottom: 1rem;
+      }
+
+      #why > .container > p {
+        color: var(--color-text);
+      }
+
+      .why-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 2rem;
+        max-width: 1000px;
+        margin: 2rem auto 0;
+      }
+
+      .why-item {
+        text-align: center;
+      }
+
+      .why-icon {
+        width: 56px;
+        height: 56px;
+        margin: 0 auto 1rem;
+        border-radius: 50%;
+        background: var(--color-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-white);
+      }
+
+      .why-icon svg {
+        width: 26px;
+        height: 26px;
+      }
+
+      .why-item h4 {
+        margin-bottom: 0.35em;
+        color: var(--color-base-contrast);
+      }
+
+      .why-item p {
+        font-size: 0.9rem;
+        margin: 0 auto;
+        color: var(--color-text);
+        opacity: 0.85;
+      }
+
+      /* Footer */
+      footer {
+        display: flex;
+        background: var(--color-background);
+        padding: 2rem 0;
+        text-align: center;
+        font-size: 0.9em;
+        border-top: 1px solid var(--color-bg-alt);
+      }
+
+      footer .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      footer p {
+        color: var(--color-text);
+        margin: 0;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 1.5rem;
+        list-style: none;
+      }
+
+      .footer-links a {
+        color: var(--color-text);
+        font-weight: 600;
+      }
+
+      .footer-links a:hover {
+        color: var(--color-accent);
+      }
+
+      @media (max-width: 768px) {
+        header .container {
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        header nav ul {
+          padding: 0 0 1.25rem;
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        #hero {
+          padding: 5rem 0;
+        }
+
+        .cta-secondary {
+          margin-left: 0;
+          margin-top: 0.75rem;
+        }
+
+        footer .container {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a href="index.html" class="logo-link" aria-label="Merge42 Learning Hub home">
+          <img src="header-m42-logo.png" alt="Merge42" class="logo-img" />
+          <span class="logo-sub">Learning Hub</span>
+        </a>
+        <nav>
+          <ul>
+            <li><a href="#topics">Topics</a></li>
+            <li><a href="#why">Why Merge42?</a></li>
+            <li><a href="https://www.merge42.com" target="_blank" rel="noopener" class="external">merge42.com</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section id="hero">
+        <div class="container">
+          <h1 class="hero__title">
+            <span class="nowrap">Clear Technical Education.</span>
+            <span class="nowrap">Real Team Onboarding.</span>
+            <span class="nowrap">No Drama.</span>
+          </h1>
+          <p class="hero__description">Practical guides from the team at Merge42.</p>
+          <p class="hero__lead">
+            Public, hands-on walkthroughs of the architectures and tools we use to help teams
+            scale. Skills you'll use on Monday. Zero jargon. Zero fluff.
+          </p>
+          <a href="#topics" class="cta">Start Learning</a>
+          <a href="https://www.merge42.com" target="_blank" rel="noopener" class="cta-secondary">Visit merge42.com</a>
+        </div>
+      </section>
+
+      <section id="topics">
+        <div class="container">
+          <h2>Technical Topics</h2>
+          <p class="section-lead">
+            Each topic is a standalone, self-paced guide designed for team onboarding in
+            specific technical areas. More topics will be added over time.
+          </p>
+          <div class="topics-grid">
+            <a href="polylith.html" class="topic-item">
+              <div class="topic-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="3" y="3" width="12" height="12" rx="2" fill="currentColor" opacity="0.3"/>
+                  <rect x="17" y="3" width="12" height="12" rx="2" fill="currentColor" opacity="0.6"/>
+                  <rect x="3" y="17" width="12" height="12" rx="2" fill="currentColor" opacity="0.8"/>
+                  <rect x="17" y="17" width="12" height="12" rx="2" fill="currentColor"/>
+                </svg>
+              </div>
+              <h3>Python Polylith</h3>
+              <p>
+                A practical walkthrough of the Polylith architecture in Python — bases, components,
+                projects, and how to ship modular, scalable systems your whole team can own.
+              </p>
+              <div class="topic-meta">
+                <span class="topic-tag available">Available</span>
+                <span class="topic-lang">Python</span>
+                <span class="topic-arrow">→</span>
+              </div>
+            </a>
+
+            <div class="topic-item disabled">
+              <div class="topic-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 10c0-2 6-4 12-4s12 2 12 4v12c0 2-6 4-12 4s-12-2-12-4V10z"/>
+                  <path d="M4 10c0 2 6 4 12 4s12-2 12-4"/>
+                  <path d="M4 16c0 2 6 4 12 4s12-2 12-4"/>
+                </svg>
+              </div>
+              <h3>Data Engineering</h3>
+              <p>
+                Build robust pipelines and ETL processes with best practices for
+                scalability, observability and maintainability.
+              </p>
+              <div class="topic-meta">
+                <span class="topic-tag coming">Coming Soon</span>
+                <span class="topic-lang">Python · SQL</span>
+                <span class="topic-arrow">→</span>
+              </div>
+            </div>
+
+            <div class="topic-item disabled">
+              <div class="topic-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M8 4l-4 12 4 12"/>
+                  <path d="M24 4l4 12-4 12"/>
+                  <path d="M19 4l-6 24"/>
+                </svg>
+              </div>
+              <h3>API Design</h3>
+              <p>
+                REST and GraphQL patterns, versioning, documentation standards,
+                and the conventions that keep APIs usable at scale.
+              </p>
+              <div class="topic-meta">
+                <span class="topic-tag coming">Coming Soon</span>
+                <span class="topic-lang">REST · GraphQL</span>
+                <span class="topic-arrow">→</span>
+              </div>
+            </div>
+
+            <div class="topic-item disabled">
+              <div class="topic-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+                  <path d="M16 4L4 10v12l12 6 12-6V10L16 4z"/>
+                  <path d="M4 10l12 6 12-6"/>
+                  <path d="M16 16v12"/>
+                </svg>
+              </div>
+              <h3>Infrastructure</h3>
+              <p>
+                Container orchestration, infrastructure as code and pragmatic
+                cloud deployment strategies — without the resume-driven hype.
+              </p>
+              <div class="topic-meta">
+                <span class="topic-tag coming">Coming Soon</span>
+                <span class="topic-lang">Docker · K8s · IaC</span>
+                <span class="topic-arrow">→</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="why">
+        <div class="container">
+          <h2>Why these guides exist</h2>
+          <p>
+            We publish what we teach internally. If your team is onboarding into
+            one of these areas, this is how we'd help them get there faster.
+          </p>
+          <div class="why-grid">
+            <div class="why-item">
+              <div class="why-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+              <h4>Practical</h4>
+              <p>Skills you'll use on Monday. No hype.</p>
+            </div>
+            <div class="why-item">
+              <div class="why-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </div>
+              <h4>Team-ready</h4>
+              <p>Written for onboarding, not just individuals.</p>
+            </div>
+            <div class="why-item">
+              <div class="why-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 6v6l4 2"/>
+                </svg>
+              </div>
+              <h4>Production-tested</h4>
+              <p>From real engagements. Real trade-offs.</p>
+            </div>
+            <div class="why-item">
+              <div class="why-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="19" x2="12" y2="5"/>
+                  <polyline points="5 12 12 5 19 12"/>
+                </svg>
+              </div>
+              <h4>Hands-on</h4>
+              <p>Deep dives, not surface summaries.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 Merge42. All rights reserved.</p>
+        <ul class="footer-links">
+          <li><a href="polylith.html">Python Polylith</a></li>
+          <li><a href="https://www.merge42.com" target="_blank" rel="noopener">merge42.com</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>
