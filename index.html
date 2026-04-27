@@ -464,9 +464,58 @@
 
         .sidebar {
           width: 100%;
-          max-height: 260px;
           border-right: none;
           border-bottom: 1px solid var(--border);
+          padding: 0;
+          overflow: visible;
+        }
+
+        .sidebar-title {
+          display: none;
+        }
+
+        .sidebar > a {
+          display: none;
+        }
+
+        .sidebar > .tree-item.expandable,
+        .sidebar > a.tree-item {
+          display: flex;
+          padding: 0.75rem 1.25rem;
+          border-top: 1px solid var(--border);
+          border-left: none;
+          border-radius: 0;
+        }
+
+        .sidebar > .tree-item.expandable.section-gap {
+          border-top: 1px solid var(--border);
+        }
+
+        .sidebar > .tree-item.expandable:first-child {
+          border-top: none;
+        }
+
+        .tree-children {
+          display: none;
+          padding: 0 1.25rem 0.5rem 1.25rem;
+        }
+
+        .tree-children.show {
+          display: block;
+        }
+
+        .tree-children .tree-item {
+          padding-left: 1.25rem;
+          padding-top: 0.5rem;
+          padding-bottom: 0.5rem;
+        }
+
+        .tree-children .tree-item .icon {
+          font-size: 1rem;
+        }
+
+        .tree-empty {
+          padding: 0.5rem 1.25rem 0.5rem 2.75rem;
         }
 
         .content {

@@ -106,11 +106,46 @@
       border: 1px solid rgba(251, 191, 36, 0.25);
     }
 
+    .mobile-menu-btn {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.5rem;
+      cursor: pointer;
+      color: var(--text);
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .mobile-menu-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--border-2);
+    }
+
+    .mobile-menu-btn svg {
+      display: block;
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Reading progress bar */
+    .reading-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--component), var(--accent));
+      z-index: 50;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
     /* Layout */
     .main {
       display: flex;
       flex: 1;
       min-height: 0;
+      position: relative;
     }
 
     /* Sidebar */
@@ -1084,15 +1119,51 @@
     }
 
     @media (max-width: 900px) {
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .sidebar > div:first-child {
+        display: flex !important;
+      }
+
       .main {
         flex-direction: column;
       }
 
       .sidebar {
-        width: 100%;
-        max-height: 260px;
-        border-right: none;
-        border-bottom: 1px solid var(--border);
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 280px;
+        max-width: 85vw;
+        z-index: 40;
+        border-right: 1px solid var(--border);
+        border-bottom: none;
+        padding: 1rem 0 2rem;
+        overflow-y: auto;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 35;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.25s ease, visibility 0.25s ease;
+      }
+
+      .sidebar-overlay.open {
+        opacity: 1;
+        visibility: visible;
       }
 
       .content {
@@ -1128,10 +1199,200 @@
         bottom: -0.5rem;
       }
     }
+
+    @media (max-width: 640px) {
+      .header {
+        padding: 0.75rem 1rem;
+      }
+
+      .brand-mark {
+        width: 30px;
+        height: 30px;
+      }
+
+      .brand-title {
+        font-size: 0.95rem;
+      }
+
+      .brand-sub {
+        font-size: 0.65rem;
+      }
+
+      .header-badge {
+        display: none;
+      }
+
+      .content {
+        padding: 1rem;
+      }
+
+      .content h2 {
+        font-size: 1.4rem;
+      }
+
+      .content h3 {
+        font-size: 1.05rem;
+        margin-top: 1.5rem;
+      }
+
+      .content p {
+        font-size: 0.9rem;
+      }
+
+      .content p.lead {
+        font-size: 1rem;
+      }
+
+      .tag {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.6rem;
+      }
+
+      pre.code-block {
+        font-size: 0.75rem;
+        padding: 0.85rem 1rem;
+      }
+
+      .workspace-diagram {
+        gap: 0.5rem;
+      }
+
+      .ws-folder {
+        flex: 1 1 100%;
+        max-width: none;
+        padding: 0.85rem 0.75rem;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .info-card {
+        padding: 0.9rem;
+      }
+
+      .info-card h4 {
+        font-size: 0.85rem;
+      }
+
+      .info-card p {
+        font-size: 0.8rem;
+      }
+
+      .callout {
+        padding: 0.85rem;
+        gap: 0.6rem;
+      }
+
+      .callout .cicon {
+        font-size: 1.1rem;
+      }
+
+      .callout .cbody p {
+        font-size: 0.82rem;
+      }
+
+      .flow-visual {
+        padding: 1.25rem 1rem;
+      }
+
+      .flow-circle {
+        width: 52px;
+        height: 52px;
+        font-size: 1.25rem;
+      }
+
+      .flow-label {
+        font-size: 0.8rem;
+      }
+
+      .flow-sublabel {
+        font-size: 0.65rem;
+      }
+
+      .rules-list li {
+        padding: 0.6rem 1rem 0.6rem 3.25rem;
+        font-size: 0.85rem;
+      }
+
+      .rules-list li::before {
+        width: 1.75rem;
+        height: 1.75rem;
+        font-size: 0.75rem;
+      }
+
+      .dep-diagram {
+        gap: 0.5rem;
+        padding: 1rem;
+      }
+
+      .dep-node {
+        font-size: 0.75rem;
+        padding: 0.5rem 0.85rem;
+        min-width: auto;
+      }
+
+      .dep-arrow {
+        font-size: 1.2rem;
+        padding: 0 0.25rem;
+      }
+
+      .playground {
+        padding: 1rem;
+      }
+
+      .chip {
+        font-size: 0.72rem;
+        padding: 0.35rem 0.75rem;
+      }
+
+      .playground-result {
+        font-size: 0.75rem;
+        min-height: 60px;
+      }
+
+      .lego-box {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.25rem;
+      }
+
+      .lego-icon {
+        font-size: 1.75rem;
+      }
+
+      .hook-card {
+        padding: 1rem;
+      }
+
+      .hook-card h4 {
+        font-size: 0.9rem;
+      }
+
+      .hook-card li {
+        font-size: 0.82rem;
+      }
+
+      .content-section {
+        position: relative;
+      }
+
+      .content-section h2 {
+        position: sticky;
+        top: 0;
+        background: var(--bg);
+        z-index: 5;
+        padding: 0.5rem 0;
+        margin-bottom: 0;
+        border-bottom: 1px solid var(--border);
+      }
+    }
   </style>
 </head>
 
 <body>
+  <div class="reading-progress" id="reading-progress"></div>
+
   <!-- SVG Symbol Definitions -->
   <svg xmlns="http://www.w3.org/2000/svg" style="display: none" aria-hidden="true">
     <defs>
@@ -1191,25 +1452,45 @@
   </svg>
 
   <div class="header">
-    <div class="brand">
-      <div class="brand-mark">
-        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" y="4" width="12" height="3.5" rx="0.75" fill="#64748b" />
-          <rect x="2" y="9" width="5.5" height="3.5" rx="0.75" fill="#60a5fa" />
-          <rect x="8.5" y="9" width="5.5" height="3.5" rx="0.75" fill="#f87171" />
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open navigation" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
         </svg>
-      </div>
-      <div>
-        <div class="brand-title">Python Polylith</div>
-        <div class="brand-sub">Usage Guide</div>
+      </button>
+      <div class="brand">
+        <div class="brand-mark">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="4" width="12" height="3.5" rx="0.75" fill="#64748b" />
+            <rect x="2" y="9" width="5.5" height="3.5" rx="0.75" fill="#60a5fa" />
+            <rect x="8.5" y="9" width="5.5" height="3.5" rx="0.75" fill="#f87171" />
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">Python Polylith</div>
+          <div class="brand-sub">Usage Guide</div>
+        </div>
       </div>
     </div>
     <span class="header-badge">Interactive</span>
   </div>
 
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
   <div class="main">
     <!-- SIDEBAR -->
     <nav class="sidebar">
+      <div style="display: none; align-items: center; justify-content: space-between; padding: 0.5rem 1.25rem 0.75rem;">
+        <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #4a5a75;">Menu</span>
+        <button id="sidebar-close-btn" style="background: transparent; border: none; color: var(--muted); cursor: pointer; padding: 0.25rem; display: flex; align-items: center; justify-content: center;" aria-label="Close navigation">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
       <div class="sidebar-title">Learn</div>
       <div class="tree-item active" data-target="overview">
         <span class="icon">
@@ -2711,6 +2992,61 @@ $ uv run poly sync          <span class="comment"># keep projects in sync with i
   </div>
 
   <script>
+    // Mobile drawer logic
+    (function() {
+      const menuBtn = document.getElementById('mobile-menu-btn');
+      const sidebar = document.querySelector('.sidebar');
+      const overlay = document.getElementById('sidebar-overlay');
+      const body = document.body;
+
+      function openDrawer() {
+        sidebar.classList.add('open');
+        overlay.classList.add('open');
+        menuBtn.setAttribute('aria-expanded', 'true');
+        body.style.overflow = 'hidden';
+      }
+
+      function closeDrawer() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        body.style.overflow = '';
+      }
+
+      menuBtn.addEventListener('click', openDrawer);
+      overlay.addEventListener('click', closeDrawer);
+
+      const closeBtn = document.getElementById('sidebar-close-btn');
+      if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+
+      // Close drawer when a sidebar item is clicked on mobile
+      document.querySelectorAll('.tree-item').forEach((item) => {
+        item.addEventListener('click', function() {
+          if (window.innerWidth <= 900) {
+            // Only close if it's a leaf item (has a target)
+            if (this.dataset.target) {
+              closeDrawer();
+            }
+          }
+        });
+      });
+
+      // Swipe-to-close on sidebar
+      let touchStartX = 0;
+      sidebar.addEventListener('touchstart', function(e) {
+        touchStartX = e.touches[0].clientX;
+      }, { passive: true });
+
+      sidebar.addEventListener('touchmove', function(e) {
+        if (touchStartX <= 0) return;
+        const diff = touchStartX - e.touches[0].clientX;
+        if (diff > 60) {
+          touchStartX = 0;
+          closeDrawer();
+        }
+      }, { passive: true });
+    })();
+
     // Tree interaction
     document.querySelectorAll(".tree-item").forEach((item) => {
       item.addEventListener("click", function (e) {
@@ -2812,6 +3148,24 @@ ${comps || '  <span style="color:var(--dim);">// no components selected</span>'}
 
 <span style="color:#64748b;"># →</span> <span style="color:var(--project);">project = ${pgBase || "?"} base + ${pgComps.size} component${pgComps.size === 1 ? "" : "s"}</span>`;
     }
+
+    // Reading progress bar
+    (function() {
+      const progressBar = document.getElementById('reading-progress');
+      if (!progressBar) return;
+
+      function updateProgress() {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        if (docHeight <= 0) return;
+        const progress = (scrollTop / docHeight) * 100;
+        progressBar.style.width = progress + '%';
+      }
+
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      window.addEventListener('resize', updateProgress, { passive: true });
+      updateProgress();
+    })();
   </script>
 </body>
 
