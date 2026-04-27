@@ -47,6 +47,18 @@
         min-height: 100vh;
       }
 
+      /* Reading progress bar */
+      .reading-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--component), var(--accent));
+        z-index: 50;
+        width: 0%;
+        transition: width 0.1s linear;
+      }
+
       /* Header */
       .header {
         background: linear-gradient(180deg, #131b2e 0%, #0b1120 100%);
@@ -98,6 +110,28 @@
         text-transform: uppercase;
       }
 
+      .mobile-menu-btn {
+        display: none;
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0.5rem;
+        cursor: pointer;
+        color: var(--text);
+        transition: background 0.2s, border-color 0.2s;
+      }
+
+      .mobile-menu-btn:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: var(--border-2);
+      }
+
+      .mobile-menu-btn svg {
+        display: block;
+        width: 20px;
+        height: 20px;
+      }
+
       .header-links a {
         color: var(--muted);
         font-size: 0.82rem;
@@ -118,6 +152,7 @@
         display: flex;
         flex: 1;
         min-height: 0;
+        position: relative;
       }
 
       /* Sidebar */
@@ -458,82 +493,160 @@
       }
 
       @media (max-width: 900px) {
+        .mobile-menu-btn {
+          display: block;
+        }
+
+        .sidebar > div:first-child {
+          display: flex !important;
+        }
+
         .main {
           flex-direction: column;
         }
 
         .sidebar {
-          width: 100%;
-          border-right: none;
-          border-bottom: 1px solid var(--border);
-          padding: 0;
-          overflow: visible;
+          position: fixed;
+          top: 0;
+          left: 0;
+          height: 100vh;
+          width: 280px;
+          max-width: 85vw;
+          z-index: 40;
+          border-right: 1px solid var(--border);
+          border-bottom: none;
+          padding: 1rem 0 2rem;
+          overflow-y: auto;
+          transform: translateX(-100%);
+          transition: transform 0.25s ease;
         }
 
-        .sidebar-title {
-          display: none;
+        .sidebar.open {
+          transform: translateX(0);
         }
 
-        .sidebar > a {
-          display: none;
+        .sidebar-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 35;
+          opacity: 0;
+          visibility: hidden;
+          transition: opacity 0.25s ease, visibility 0.25s ease;
         }
 
-        .sidebar > .tree-item.expandable,
-        .sidebar > a.tree-item {
-          display: flex;
-          padding: 0.75rem 1.25rem;
-          border-top: 1px solid var(--border);
-          border-left: none;
-          border-radius: 0;
-        }
-
-        .sidebar > .tree-item.expandable.section-gap {
-          border-top: 1px solid var(--border);
-        }
-
-        .sidebar > .tree-item.expandable:first-child {
-          border-top: none;
-        }
-
-        .tree-children {
-          display: none;
-          padding: 0 1.25rem 0.5rem 1.25rem;
-        }
-
-        .tree-children.show {
-          display: block;
-        }
-
-        .tree-children .tree-item {
-          padding-left: 1.25rem;
-          padding-top: 0.5rem;
-          padding-bottom: 0.5rem;
-        }
-
-        .tree-children .tree-item .icon {
-          font-size: 1rem;
-        }
-
-        .tree-empty {
-          padding: 0.5rem 1.25rem 0.5rem 2.75rem;
+        .sidebar-overlay.open {
+          opacity: 1;
+          visibility: visible;
         }
 
         .content {
           padding: 1.5rem;
         }
       }
+
+      @media (max-width: 640px) {
+        .header {
+          padding: 0.75rem 1rem;
+        }
+
+        .brand-mark {
+          width: 30px;
+          height: 30px;
+        }
+
+        .brand-title {
+          font-size: 0.95rem;
+        }
+
+        .brand-sub {
+          font-size: 0.65rem;
+        }
+
+        .header-links {
+          display: none;
+        }
+
+        .content {
+          padding: 1rem;
+        }
+
+        .content h2 {
+          font-size: 1.4rem;
+        }
+
+        .content h3 {
+          font-size: 1.05rem;
+          margin-top: 1.5rem;
+        }
+
+        .content p {
+          font-size: 0.9rem;
+        }
+
+        .content p.lead {
+          font-size: 1rem;
+        }
+
+        .tag {
+          font-size: 0.65rem;
+          padding: 0.2rem 0.6rem;
+        }
+
+        .resource-item {
+          padding: 1rem;
+          gap: 0.75rem;
+        }
+
+        .resource-icon {
+          width: 36px;
+          height: 36px;
+        }
+
+        .resource-body h4 {
+          font-size: 0.9rem;
+        }
+
+        .resource-body p {
+          font-size: 0.82rem;
+        }
+
+        .resource-meta {
+          font-size: 0.72rem;
+        }
+
+        .callout {
+          padding: 0.85rem;
+          gap: 0.6rem;
+        }
+
+        .callout .cbody p {
+          font-size: 0.82rem;
+        }
+      }
     </style>
   </head>
 
   <body>
+    <div class="reading-progress" id="reading-progress"></div>
+
     <div class="header">
-      <div class="brand">
-        <div class="brand-mark">
-          <img src="header-m42-logo.png" alt="Merge42" />
-        </div>
-        <div>
-          <div class="brand-title">Merge42</div>
-          <div class="brand-sub">Orientation Guides</div>
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open navigation" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <div class="brand">
+          <div class="brand-mark">
+            <img src="header-m42-logo.png" alt="Merge42" />
+          </div>
+          <div>
+            <div class="brand-title">Merge42</div>
+            <div class="brand-sub">Orientation Guides</div>
+          </div>
         </div>
       </div>
       <div class="header-links">
@@ -543,8 +656,19 @@
       </div>
     </div>
 
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
     <div class="main">
       <nav class="sidebar">
+        <div style="display: none; align-items: center; justify-content: space-between; padding: 0.5rem 1.25rem 0.75rem;">
+          <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #4a5a75;">Menu</span>
+          <button id="sidebar-close-btn" style="background: transparent; border: none; color: var(--muted); cursor: pointer; padding: 0.25rem; display: flex; align-items: center; justify-content: center;" aria-label="Close navigation">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
         <div class="sidebar-title">Resources</div>
 
         <a href="index.html" class="tree-item active">
@@ -822,6 +946,58 @@
     </div>
 
     <script>
+      // Mobile drawer logic
+      (function() {
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        const body = document.body;
+
+        function openDrawer() {
+          sidebar.classList.add('open');
+          overlay.classList.add('open');
+          menuBtn.setAttribute('aria-expanded', 'true');
+          body.style.overflow = 'hidden';
+        }
+
+        function closeDrawer() {
+          sidebar.classList.remove('open');
+          overlay.classList.remove('open');
+          menuBtn.setAttribute('aria-expanded', 'false');
+          body.style.overflow = '';
+        }
+
+        menuBtn.addEventListener('click', openDrawer);
+        overlay.addEventListener('click', closeDrawer);
+
+        const closeBtn = document.getElementById('sidebar-close-btn');
+        if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+
+        // Close drawer when a sidebar item/link is clicked on mobile
+        document.querySelectorAll('.tree-item').forEach((item) => {
+          item.addEventListener('click', function() {
+            if (window.innerWidth <= 900 && this.tagName === 'A') {
+              closeDrawer();
+            }
+          });
+        });
+
+        // Swipe-to-close on sidebar
+        let touchStartX = 0;
+        sidebar.addEventListener('touchstart', function(e) {
+          touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+
+        sidebar.addEventListener('touchmove', function(e) {
+          if (touchStartX <= 0) return;
+          const diff = touchStartX - e.touches[0].clientX;
+          if (diff > 60) {
+            touchStartX = 0;
+            closeDrawer();
+          }
+        }, { passive: true });
+      })();
+
       // Expand/collapse sidebar categories
       document.querySelectorAll('.tree-item.expandable').forEach((item) => {
         item.addEventListener('click', function (e) {
@@ -835,6 +1011,24 @@
           }
         });
       });
+
+      // Reading progress bar
+      (function() {
+        const progressBar = document.getElementById('reading-progress');
+        if (!progressBar) return;
+
+        function updateProgress() {
+          const scrollTop = window.scrollY || document.documentElement.scrollTop;
+          const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          if (docHeight <= 0) return;
+          const progress = (scrollTop / docHeight) * 100;
+          progressBar.style.width = progress + '%';
+        }
+
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        window.addEventListener('resize', updateProgress, { passive: true });
+        updateProgress();
+      })();
     </script>
   </body>
 </html>
